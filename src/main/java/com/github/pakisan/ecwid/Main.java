@@ -28,9 +28,10 @@ public class Main {
 //        var ipsAsInt = new TreeSet<Integer>();
 
         try {
-//            var file = new File("/Users/pavel/Documents/git/ecwid/src/main/resources/ips.txt");
-//            var file = new File("/Users/pavel/Documents/git/ecwid/src/main/resources/ips 2GB.txt");
-            var file = new File("/Users/pavel/Documents/git/ecwid/src/main/resources/ips 1GB.txt");
+//            var file = new File("/Users/pavel/Documents/git/ecwid/ips/ips.txt");
+//            var file = new File("/Users/pavel/Documents/git/ecwid/ips/ips 2GB.txt");
+//            var file = new File("/Users/pavel/Documents/git/ecwid/ips/ips 14GB.txt");
+            var file = new File("/Users/pavel/Downloads/ip_addresses");
             System.out.printf("file size: %s MB\n", Files.size(file.toPath()) / mb);
             var scanner = new Scanner(file);
 //            var scanner = new Scanner(new File("/Users/pavel/Downloads/ip_addresses"));
@@ -44,7 +45,9 @@ public class Main {
 //                ipsAsInt.add(value);
 //            }
 //            scanner.close();
-            count = new UniqueIpCounter(scanner).count();
+//            count = new UniqueIpCounter().count(scanner);
+            count = new UniqueIpCounter().count(file);
+//            count = new UniqueIpCounter().count(file.toPath());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

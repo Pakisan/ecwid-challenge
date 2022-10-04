@@ -1,49 +1,34 @@
 package com.github.pakisan.ecwid;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Arrays;
 import java.util.BitSet;
-import java.util.Scanner;
-import java.util.TreeSet;
 
 public class UniqueIpCounter {
 
-    private final Scanner scanner;
     private final BitSet bitSet = new BitSet();
-    private final TreeSet<Integer> treeSet = new TreeSet<>();
 
-    public UniqueIpCounter(Scanner scanner) {
-        this.scanner = scanner;
-    }
+    public int count(File file) throws IOException {
+        // Faster than scanner and File Channel with Byte Buffer
+        try (FileReader fileReader = new FileReader(file)) {
+            var buffReader = new BufferedReader(fileReader);
 
-    public int count() throws UnknownHostException {
-        while (scanner.hasNext()) {
-            var ip = scanner.next();
-            var ipBytes = ipToBytes(ip);
-            var ipInt = ipBytesToInt(ipBytes);
-//            var ipRestored = ipBytesToIp(ipBytes);
-
-//            InetAddress.getByName(ip).getAddress()
-//            System.out.printf(
-//                    """
-//                    ip: %s
-//                    ip bytes: %s
-//                    ip int: %s
-//                    restored ip: %s
-//
-//                    """, ip, Arrays.toString(ipBytes), ipInt, ipRestored
-//            );
-//            bitSet.set(ipInt);
-            if (ipInt > 0) {
-                treeSet.add(ipInt);
-            }
+            buffReader.lines()
+                    .parallel()
+                    .map(this::ipToBytes)
+                    .map(this::ipBytesToInt)
+                    .forEach(ipInt -> {
+                        // Low memory consumption + fast
+                        if (ipInt > 0) bitSet.set(ipInt);
+                    });
         }
 
-//        return bitSet.size();
-        return treeSet.size();
+        return bitSet.cardinality();
     }
 
     private byte[] ipToBytes(String ip) {
