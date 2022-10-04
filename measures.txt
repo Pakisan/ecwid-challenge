@@ -1,0 +1,15 @@
+Naive implementation:
+
+Started at: Tue Oct 04 12:51:58 AMT 2022
+file size: 2723 MB
+Ended at:   Tue Oct 04 12:55:13 AMT 2022
+Consumed time: PT3M14.647S
+Unique ips: 499336
+Used Memory: 356 MB
+
+Started at: Tue Oct 04 12:57:51 AMT 2022
+file size: 1089 MB
+Ended at:   Tue Oct 04 12:59:12 AMT 2022
+Consumed time: PT1M20.987S
+Unique ips: 499336
+Used Memory: 69 MB
